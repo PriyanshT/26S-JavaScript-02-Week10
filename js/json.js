@@ -22,35 +22,72 @@ async function populate() {
     console.log(responseJson);
     
     // STEP 9a: Invoke the populateHeader function here, then build it below
-    
+    populateHeader(responseJson);
+
     // STEP 10a: Invoke the showTopFlavors function here, then build it below
-    
+    showTopFlavors(responseJson);
 }
 
 // STEP 3b: Call the populate() function
 populate();
 
 /* STEP 9b: Build out the populateHeader() function */
+function populateHeader(json){
+    // Create the H1 element
+    let h1 = document.createElement("h1"); // <h1></h1>
+    let para = document.createElement("p"); // <p></p>
 
-// Create the H1 element
+    // Grab the company name from the JSON object and use it for the text node
+    h1.textContent = json.companyName;
+    para.textContent = `Head Office: ${json.headOffice}, est. ${json.established}, status: ${ json.active ? "Active" : "Inactive" }`
 
-// Grab the company name from the JSON object and use it for the text node
+    // Inject the complete H1 element into the DOM, inside the HEADER
+    header.appendChild(h1);
+    header.appendChild(para);
+}
 
-// Inject the complete H1 element into the DOM, inside the HEADER
 
 /* STEP 10b: Assemble the showTopFlavors() function */
+function showTopFlavors(json){
+    // STEP 10c: Bind the JSON topFlavors object to a var
+    let topFlavors = json.topFlavors;
+    // console.log(topFlavors);
+    // STEP 10d: Loop through the topFlavors object
+    for (let i = 0; i < topFlavors.length; i++) {
+        console.log(topFlavors[i]);
+        // STEP 10e: build HTML elements for the content: article, h2, image, p1, p2, list
+        let article = document.createElement("article"); // <article></article>
+        let h2 = document.createElement("h2"); // <h2></h2>
+        let image = document.createElement("img"); // <img>
+        let p1 = document.createElement("p"); // <p></p>
+        let p2 = document.createElement("p"); // <p></p>
+        let list = document.createElement("ul"); // <ul></ul>
 
-// STEP 10c: Bind the JSON topFlavors object to a var
+        // STEP 10f: Set the textContent property for each of the above elements (except the UL), based on the JSON content
+        h2.textContent = topFlavors[i].name;
+        p1.textContent = "Type: " + topFlavors[i].type;
+        p2.textContent = "Calories: " + topFlavors[i].calories;
+        image.setAttribute("src", topFlavors[i].image);
 
-// STEP 10d: Loop through the topFlavors object
-
-// STEP 10e: build HTML elements for the content: article, h2, image, p1, p2, list
-
-// STEP 10f: Set the textContent property for each of the above elements (except the UL), based on the JSON content
-
-// STEP 10g: Build a loop for the ingredients array in the JSON
-
-// STEP 10i: Append each complete ARTICLE element to the SECTION element
+        // STEP 10g: Build a loop for the ingredients array in the JSON
+        let ingredients = topFlavors[i].ingredients;
+        for (let j = 0; j < ingredients.length; j++) {
+            console.log(ingredients[j]);
+            let listItem = document.createElement("li"); // <li></li>
+            listItem.textContent = ingredients[j];
+            list.appendChild(listItem);
+        }
+        
+        // STEP 10i: Append each complete ARTICLE element to the SECTION element
+        article.appendChild(h2);
+        article.appendChild(p1);
+        article.appendChild(p2);
+        article.appendChild(list);
+        article.appendChild(image);
+        
+        section.appendChild(article);
+    }
+}
 
 // STEP 11: Add a 3rd flavour of ice cream to the local JSON file, making use of the /images/strawberry-sprinkle.svg image
 
